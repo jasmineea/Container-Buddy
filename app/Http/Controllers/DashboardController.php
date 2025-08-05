@@ -31,9 +31,9 @@ class DashboardController extends Controller
             ->value('created_at');
 
         $tagFireActivity = DB::table('tag_fire_logs')
-            ->select(DB::raw('HOUR(fired_at) as hour'), 'container_type', DB::raw('COUNT(*) as count'))
+            ->select(DB::raw('EXTRACT(HOUR FROM fired_at) as hour'), 'container_type', DB::raw('COUNT(*) as count'))
             ->whereDate('fired_at', today())
-            ->groupBy('hour', 'container_type')
+            ->groupBy(DB::raw('EXTRACT(HOUR FROM fired_at)'), 'container_type')
             ->get()
             ->groupBy('container_type');
 
