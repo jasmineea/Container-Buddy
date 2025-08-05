@@ -41,6 +41,8 @@ class DashboardController extends Controller
 
 
 
-        return view('dashboard', compact('user', 'todayCount', 'activeContainers', 'anomalies', 'lastUpdate', 'tagFireActivity'));
+        return view('dashboard', compact('user', 'todayCount', 'activeContainers', 'anomalies', 'lastUpdate', 'tagFireActivity'))
+            ->with('dataClient', json_encode(array_column(($tagFireActivity['client'] ?? collect())->toArray(), 'count')))
+            ->with('dataServer', json_encode(array_column(($tagFireActivity['server'] ?? collect())->toArray(), 'count')));
     }
 }
